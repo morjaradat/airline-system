@@ -1,0 +1,16 @@
+{
+  "name": "airline-system",
+  "version": "1.0.0",
+  "description": ":::image type=\"content\" source=\"./uml.jpg\" alt-text=\"UMI\":::",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "uuid": "^9.0.0"
+  }
+}
