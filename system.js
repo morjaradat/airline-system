@@ -1,21 +1,30 @@
-const event = require("./event");
+require("dotenv").config();
+const PORT = process.env.PORT || 3030;
+const ioServer = require("socket.io")(PORT);
+//namespace
+const airLineSystem = ioServer.of("/airline");
 
-require("./pilot");
+ioServer.on("connection", (socket) => {
+  console.log("connected to open socket", socket.id);
 
-require("./manger");
+  socket.on("newFlight", (info) => {
+    airLineSystem.emit("new_flight_is_scheduled", info);
+    console.log("Flight", info);
+  });
+});
 
-event.on("newFlight", newFlightHandler);
-function newFlightHandler(info) {
-  console.log(
-    `Manager: new flight with ID \‘${info.Details.flightID}\’ have been scheduled`
-  );
-  console.log("Flight", info);
-  event.emit("took_off", info);
-}
+airLineSystem.on("connection", (socket) => {
+  console.log("connected to airline system ", socket.id);
 
-event.on("pilot_arrive", pilotArriveHandler);
-function pilotArriveHandler(politName) {
-  console.log(
-    `Manager: we’re greatly thankful for the amazing flight, ${politName}`
-  );
-}
+  socket.on("took_off", handleTookOff);
+  function handleTookOff(info) {
+    info.event = "took_off";
+    console.log("Flight", info);
+  }
+  socket.on("flight_arrived", handleFlightArrived);
+  function handleFlightArrived(info) {
+    info.event = "flight_arrived";
+    console.log("Flight", info);
+    ioServer.emit("flight_arrived", info);
+  }
+});
