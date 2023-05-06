@@ -20,3 +20,10 @@ systemConnection.on("new_flight_is_scheduled", (info) => {
     );
   }, 7000);
 });
+
+systemConnection.emit("get-all");
+systemConnection.on("fligt", (response) => {
+  console.log(
+    `Pilot:Sorry i didn't catch this flight ID ${response.msg.details.id}`
+  );
+});
