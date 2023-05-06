@@ -30,4 +30,4 @@ setInterval(() => {
   console.log(
     `Manager: new flight with ID \‘${fakerData.Details.flightID}\’ have been scheduled`
   );
-}, 10000);
+}, 5000);
